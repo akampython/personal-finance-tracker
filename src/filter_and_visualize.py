@@ -6,11 +6,11 @@ import sys
 def load_data(file_path='data/input.xlsx'):
     df = pd.read_excel(file_path, sheet_name='Sheet1')
     df.columns = df.columns.str.strip()  # Remove any leading/trailing whitespace
+    print("Column names:", df.columns)  # Print the column names for debugging
     return df
 
 # Filter data by month
 def filter_by_month(df, month):
-    # Ensure the 'date' column matches the case in your Excel file
     df['date'] = pd.to_datetime(df['date'])
     return df[df['date'].dt.month == month]
 
@@ -18,9 +18,12 @@ def filter_by_month(df, month):
 def generate_monthly_report(df, month, output_path='output/monthly_report.png'):
     plt.figure(figsize=(10, 6))
 
-    # Total income and expenses for the month
-    total_income = df[df['Type'] == 'Income']['Amount'].sum()
-    total_expense = df[df['Type'] == 'Expense']['Amount'].sum()
+    # Grouping by category to summarize income and expenses
+    category_summary = df.groupby('category')['amount'].sum()
+
+    # Assuming categories contain 'Income' and 'Expense'
+    total_income = category_summary.get('Income', 0)
+    total_expense = category_summary.get('Expense', 0)
     balance = total_income - total_expense
 
     # Display summary
@@ -29,9 +32,9 @@ def generate_monthly_report(df, month, output_path='output/monthly_report.png'):
     plt.title(f"Financial Summary for Month {month}")
     plt.ylabel("Amount")
 
-    # Display detailed transactions
+    # Display detailed transactions by category
     plt.subplot(2, 1, 2)
-    df.groupby('Category')['Amount'].sum().plot(kind='bar', color='orange')
+    category_summary.plot(kind='bar', color='orange')
     plt.title("Expenses by Category")
     plt.xlabel("Category")
     plt.ylabel("Amount")
