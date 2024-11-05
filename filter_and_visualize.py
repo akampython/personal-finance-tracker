@@ -2,14 +2,20 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
 import os
+import sys
 
 # Load the data
 file_path = 'data/input.xlsx'
 sheet_name = 'Sheet1'
 data = pd.read_excel(file_path, sheet_name=sheet_name)
 
-# Ask user for the month to filter
-month_input = input("Enter the month to filter (e.g., '2023-03' for March 2023): ")
+# Get month from command-line argument
+if len(sys.argv) > 1:
+    month_input = sys.argv[1]
+else:
+    raise ValueError("Month input is required. Please provide it as a command-line argument in 'YYYY-MM' format.")
+
+# Parse month
 month_filter = datetime.strptime(month_input, "%Y-%m")
 
 # Filter data for the specified month
