@@ -1,9 +1,12 @@
 name: Monthly Finance Report
 
 on:
-  schedule:
-    - cron: '0 0 1 * *'  # Runs on the 1st day of every month at midnight
-  workflow_dispatch:      # Allows manual triggering
+  workflow_dispatch:      # Enables manual triggering
+    inputs:
+      month:
+        description: "Month to generate report for (1-12)"
+        required: true
+        default: "10"
 
 jobs:
   generate_report:
@@ -24,7 +27,7 @@ jobs:
         pip install pandas matplotlib openpyxl
 
     - name: Generate Monthly Report
-      run: python src/filter_and_visualize.py
+      run: python src/filter_and_visualize.py ${{ github.event.inputs.month }}
 
     - name: Upload report as artifact
       uses: actions/upload-artifact@v3
