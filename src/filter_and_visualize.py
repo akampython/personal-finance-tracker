@@ -10,8 +10,8 @@ def load_data(file_path='data/input.xlsx'):
 
 # Filter data by month
 def filter_by_month(df, month):
-    df['Date'] = pd.to_datetime(df['Date'])
-    return df[df['Date'].dt.month == month]
+    df['date'] = pd.to_datetime(df['date'])
+    return df[df['date'].dt.month == month]
 
 # Generate and save a report as an image
 def generate_monthly_report(df, month, output_path='output/monthly_report.png'):
