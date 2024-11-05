@@ -10,6 +10,7 @@ def load_data(file_path='data/input.xlsx'):
 
 # Filter data by month
 def filter_by_month(df, month):
+    # Ensure the 'date' column matches the case in your Excel file
     df['date'] = pd.to_datetime(df['date'])
     return df[df['date'].dt.month == month]
 
