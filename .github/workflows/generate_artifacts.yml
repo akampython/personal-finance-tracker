@@ -2,6 +2,12 @@ name: Generate Artifacts
 
 on:
   workflow_dispatch:
+    inputs:
+      month:
+        description: "Enter the month to filter in 'YYYY-MM' format"
+        required: true
+        default: "2023-03"
+
   push:
     branches:
       - main
@@ -22,7 +28,7 @@ jobs:
         run: pip install pandas matplotlib openpyxl
 
       - name: Run artifact generation script
-        run: python filter_and_visualize.py
+        run: python filter_and_visualize.py ${{ github.event.inputs.month }}
 
       - name: Upload pie chart artifact
         uses: actions/upload-artifact@v3
