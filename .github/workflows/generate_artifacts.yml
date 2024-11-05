@@ -1,0 +1,36 @@
+name: Generate Artifacts
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install pandas matplotlib openpyxl
+
+      - name: Run artifact generation script
+        run: python filter_and_visualize.py
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: piechart
+          path: artifacts/piechart.png
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: barchart
+          path: artifacts/barchart.png
