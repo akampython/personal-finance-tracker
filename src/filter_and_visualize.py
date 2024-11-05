@@ -1,11 +1,11 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import sys
-from datetime import datetime
 
 # Load data from Excel
 def load_data(file_path='data/input.xlsx'):
     df = pd.read_excel(file_path, sheet_name='Sheet1')
+    df.columns = df.columns.str.strip()  # Remove any leading/trailing whitespace
     return df
 
 # Filter data by month
