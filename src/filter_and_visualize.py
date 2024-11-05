@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import sys
 from datetime import datetime
 
 # Load data from Excel
@@ -42,9 +43,14 @@ def generate_monthly_report(df, month, output_path='output/monthly_report.png'):
 # Main function to load data, filter, and generate report
 def main(month):
     df = load_data()
+    month = int(month)  # Ensure month is an integer
     monthly_data = filter_by_month(df, month)
     generate_monthly_report(monthly_data, month)
 
 if __name__ == "__main__":
-    # Example: Generate report for October (month=10)
-    main(10)
+    # Accept month as a command-line argument
+    if len(sys.argv) > 1:
+        month = sys.argv[1]
+        main(month)
+    else:
+        print("Please provide the month as an argument, e.g., 'python filter_and_visualize.py 10'")
