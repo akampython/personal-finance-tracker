@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       month:
-        description: "Enter the month to filter in 'YYYY-MM' format"
+        description: "Enter the month to filter in '2024-06' format"
         required: true
         default: "2023-03"
 
