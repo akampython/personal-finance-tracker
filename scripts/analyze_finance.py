@@ -5,7 +5,9 @@ from datetime import datetime
 # Load data
 def load_data(file_path='data/Finance.xlsx', sheet_name='Sheet1'):
     df = pd.read_excel(file_path, sheet_name=sheet_name)
+    print("Columns in Excel file:", df.columns)  # Print column names for debugging
     return df[['Date', 'Category', 'Income', 'Expenses']]
+
 
 # Filter data by date range
 def filter_data(df, start_date, end_date):
