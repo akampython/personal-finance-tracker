@@ -6,8 +6,7 @@ from datetime import datetime
 def load_data(file_path='data/Finance.xlsx', sheet_name='Sheet1'):
     df = pd.read_excel(file_path, sheet_name=sheet_name)
     print("Columns in Excel file:", df.columns)  # Print column names for debugging
-    return df[['Date', 'Category', 'Income', 'Expenses']]
-
+    return df[['Date', 'Category', 'Income', 'Cost']]  # Updated column name
 
 # Filter data by date range
 def filter_data(df, start_date, end_date):
@@ -15,29 +14,29 @@ def filter_data(df, start_date, end_date):
     mask = (df['Date'] >= start_date) & (df['Date'] <= end_date)
     return df.loc[mask]
 
-# Generate pie chart for income vs expenses
-def plot_income_expenses_pie(df, output_path='artifacts/income_expenses_piechart.png'):
+# Generate pie chart for income vs cost
+def plot_income_cost_pie(df, output_path='artifacts/income_cost_piechart.png'):
     income = df['Income'].sum()
-    expenses = df['Expenses'].sum()
-    labels = ['Income', 'Expenses']
-    sizes = [income, expenses]
+    cost = df['Cost'].sum()
+    labels = ['Income', 'Cost']
+    sizes = [income, cost]
     
     plt.figure(figsize=(6, 6))
     plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140, colors=['#76c7c0', '#ff6f61'])
-    plt.title("Income vs Expenses")
+    plt.title("Income vs Cost")
     plt.savefig(output_path)
     plt.close()
 
-# Generate bar chart for expenses by category
-def plot_expenses_by_category(df, output_path='artifacts/expenses_category_barchart.png'):
-    category_expenses = df.groupby('Category')['Expenses'].sum()
-    category_expenses = category_expenses.sort_values()
+# Generate bar chart for cost by category
+def plot_cost_by_category(df, output_path='artifacts/cost_category_barchart.png'):
+    category_cost = df.groupby('Category')['Cost'].sum()
+    category_cost = category_cost.sort_values()
     
     plt.figure(figsize=(10, 6))
-    category_expenses.plot(kind='barh', color='#ff6f61')
-    plt.xlabel("Expenses")
+    category_cost.plot(kind='barh', color='#ff6f61')
+    plt.xlabel("Cost")
     plt.ylabel("Category")
-    plt.title("Expenses by Category")
+    plt.title("Cost by Category")
     plt.savefig(output_path)
     plt.close()
 
@@ -56,8 +55,8 @@ def main():
     filtered_df = filter_data(df, start_date, end_date)
 
     # Generate and save charts
-    plot_income_expenses_pie(filtered_df)
-    plot_expenses_by_category(filtered_df)
+    plot_income_cost_pie(filtered_df)
+    plot_cost_by_category(filtered_df)
 
     print("Charts generated and saved in the 'artifacts' folder.")
 
